@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeModX - تنزيل العاب وتطبيقات معدلة</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo-area" onclick="goHome()">
+            <img src="images/logo.png" alt="FreeModX Logo" class="logo-img" onerror="this.style.display='none'">
+            <span>FreeModX</span>
+        </div>
+        <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن لعبة أو تطبيق...">
+    </header>
+
+    <!-- شريط الأقسام التفاعلي -->
+    <div class="categories-bar" id="catBar">
+        <button class="cat-btn active" data-category="all">الكل</button>
+        <button class="cat-btn" data-category="mods">Mods (معدلة)</button>
+        <button class="cat-btn" data-category="apps">Apps (تطبيقات)</button>
+        <button class="cat-btn" data-category="games">Games (ألعاب)</button>
+    </div>
+
+    <!-- المحتوى الرئيسي (الشبكة) -->
+    <div class="container" id="mainContainer">
+        <h2 class="section-title" id="sectionTitle">أحدث الإصدارات والرائجة</h2>
+        <div class="grid" id="appsGrid"></div>
+    </div>
+
+    <!-- صفحة تفاصيل التحميل (تظهر عند النقر على التطبيق) -->
+    <div class="container" id="detailsContainer" style="display: none;">
+        <button class="back-btn" onclick="goHome()">← العودة للرئيسية</button>
+        <div class="details-view" id="detailsViewContent" style="display: block;">
+            <!-- يتم تعبئتها ديناميكياً -->
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+        const grid = document.getElementById('appsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const catButtons = document.querySelectorAll('.cat-btn');
+        const mainContainer = document.getElementById('mainContainer');
+        const detailsContainer = document.getElementById('detailsContainer');
+        const detailsViewContent = document.getElementById('detailsViewContent');
+        const catBar = document.getElementById('catBar');
+        
+        let currentCategory = 'all';
+
+        function renderApps(appsToDisplay) {
+            grid.innerHTML = '';
+            if (appsToDisplay.length === 0) {
+                grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 3rem;">لا توجد نتائج مطابقة لبحثك...</p>';
+                return;
+            }
+
+            appsToDisplay.forEach(app => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div>
+                        <img src="${app.icon}" alt="${app.name}" class="app-icon" onerror="this.src='https://via.placeholder.com/90?text=APK'">
+                        <div class="app-name">${app.name}</div>
+                        <div class="app-meta">الإصدار: ${app.version}<br>${app.features}</div>
+                    </div>
+                    <button class="download-btn">عرض التفاصيل والتحميل</button>
+                `;
+                
+                // عند النقر على الكارت أو الزر، افتح صفحة التفاصيل
+                card.addEventListener('click', () => showAppDetails(app));
+                grid.appendChild(card);
+            });
+        }
+
+        function showAppDetails(app) {
+            mainContainer.style.display = 'none';
+            catBar.style.display = 'none';
+            detailsContainer.style.display = 'block';
+
+            detailsViewContent.innerHTML = `
+                <div class="details-header">
+                    <img src="${app.icon}" alt="${app.name}" class="details-icon" onerror="this.src='https://via.placeholder.com/120?text=APK'">
+                    <div class="details-info">
+                        <h1>${app.name}</h1>
+                        <p class="app-meta" style="font-size: 1rem; margin-bottom: 0.5rem;">الإصدار: ${app.version} | الحجم: ${app.size}</p>
+                        <p style="color: var(--accent-color); font-weight: 600;">✨ الميزات: ${app.features}</p>
+                    </div>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 0.8rem;">حول التطبيق:</h3>
+                    <p style="color: var(--text-muted); line-height: 1.6;">${app.description}</p>
+                </div>
+                <a href="${app.downloadLink}" class="download-btn" style="text-align: center; font-size: 1.1rem; padding: 1rem;" target="_blank">تحميل الملف برابط مباشر (MediaFire) ⚡</a>
+            `;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goHome() {
+            detailsContainer.style.display = 'none';
+            mainContainer.style.display = 'block';
+            catBar.style.display = 'flex';
+            filterAndRender();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function filterAndRender() {
+            const term = searchInput.value.toLowerCase();
+            let filtered = appsData;
+
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(app => app.category === currentCategory);
+            }
+
+            if (term) {
+                filtered = filtered.filter(app => 
+                    app.name.toLowerCase().includes(term) || app.features.toLowerCase().includes(term)
+                );
+            }
+
+            renderApps(filtered);
+        }
+
+        catButtons.fromCharCode = catButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                catButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.getAttribute('data-category');
+                filterAndRender();
+            });
+        });
+
+        searchInput.addEventListener('input', filterAndRender);
+        renderApps(appsData);
+    </script>
+
+</body>
+</html>
