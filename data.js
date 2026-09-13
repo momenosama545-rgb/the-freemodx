@@ -17,7 +17,7 @@ const appsData = [
         features: "Premium / Unlocked / No Ads",
         size: "35 MB",
         category: "apps",
-        icon: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=150&auto=format&fit=crop&q=80",
+        icon: "Gemini_Generated_Image_nqnk8knqnk8knqnk.jpg",
         downloadLink: "https://www.mediafire.com/file/m3i6zed01oplulb/Snaptube+v7.66.1.76672501+(Premium).apk/file",
         description: "Ultimate video and music downloader for Android with premium features unlocked."
     },
