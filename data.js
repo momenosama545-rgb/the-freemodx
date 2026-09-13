@@ -12,6 +12,17 @@ const appsData = [
     },
     {
         id: 2,
+        name: "Snaptube",
+        version: "7.66.1.76672501",
+        features: "Premium / Unlocked / No Ads",
+        size: "35 MB",
+        category: "apps",
+        icon: "Gemini_Generated_Image_nqnk8knqnk8knqnk.jpg",
+        downloadLink: "https://www.mediafire.com/file/m3i6zed01oplulb/Snaptube+v7.66.1.76672501+(Premium).apk/file",
+        description: "Ultimate video and music downloader for Android with premium features unlocked."
+    },
+    {
+        id: 3,
         name: "VOID BLAST",
         version: "1.2.0",
         features: "Action Arcade Game / Unlocked",
@@ -22,7 +33,7 @@ const appsData = [
         description: "Fast-paced space arcade shooter game."
     },
     {
-        id: 3,
+        id: 4,
         name: "Block Blast Egypt",
         version: "2.0.1",
         features: "Puzzle Game / No Ads",
@@ -33,7 +44,7 @@ const appsData = [
         description: "Classic puzzle block game with a unique theme."
     },
     {
-        id: 4,
+        id: 5,
         name: "Call of Duty: Mobile",
         version: "1.0.32",
         features: "Mod Menu / High FPS",
@@ -44,7 +55,7 @@ const appsData = [
         description: "Tactical multiplayer shooter action game."
     },
     {
-        id: 5,
+        id: 6,
         name: "Farming Simulator Pro",
         version: "1.7.0",
         features: "Unlimited Money / All DLCs",
@@ -55,7 +66,7 @@ const appsData = [
         description: "Manage your farm and drive heavy agricultural machinery."
     },
     {
-        id: 6,
+        id: 7,
         name: "Acode Editor Pro",
         version: "1.8.5",
         features: "Unlocked Pro Features / Premium",
@@ -66,7 +77,7 @@ const appsData = [
         description: "Powerful code editor for web development on mobile."
     },
     {
-        id: 7,
+        id: 8,
         name: "Termux Ultimate Tools",
         version: "0.118",
         features: "Pre-configured Packages & Scripts",
