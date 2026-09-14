@@ -21,6 +21,7 @@ const translations = {
         filterApps: "Apps",
         filterConfigs: "Configs",
         downloadBtn: "Download",
+        watchVideoBtn: "Watch Guide",
         footerText: "FreeModX © 2026 - Developed by Mohamed Ahmed Shawky"
     },
     ar: {
@@ -41,6 +42,7 @@ const translations = {
         filterApps: "تطبيقات",
         filterConfigs: "كونفج",
         downloadBtn: "تحميل",
+        watchVideoBtn: "طريقة التشغيل",
         footerText: "FreeModX © 2026 - تم التطوير بواسطة محمد أحمد شوقي"
     }
 };
@@ -92,6 +94,17 @@ function renderApps(filter = 'all') {
     filteredApps.forEach(app => {
         const card = document.createElement('div');
         card.className = 'app-card';
+
+        // إنشاء زر الفيديو إذا وجد رابط فيديو في الداتا
+        let videoButtonHtml = '';
+        if (app.videoLink) {
+            videoButtonHtml = `
+                <button class="video-btn" onclick="openVideoModal('${app.videoLink}')" style="background-color: #e74c3c; color: #fff; border: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s;">
+                    <i class="fa-solid fa-play"></i> ${t.watchVideoBtn}
+                </button>
+            `;
+        }
+
         card.innerHTML = `
             <div>
                 <div class="app-header">
@@ -104,9 +117,12 @@ function renderApps(filter = 'all') {
                 <div class="app-features">${app.features}</div>
                 <p class="app-desc">${app.description}</p>
             </div>
-            <div class="app-footer">
+            <div class="app-footer" style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <span class="app-size"><i class="fa-solid fa-hard-drive"></i> ${app.size}</span>
-                <a href="${app.downloadLink}" class="download-btn" target="_blank"><i class="fa-solid fa-download"></i> ${t.downloadBtn}</a>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    ${videoButtonHtml}
+                    <a href="${app.downloadLink}" class="download-btn" target="_blank"><i class="fa-solid fa-download"></i> ${t.downloadBtn}</a>
+                </div>
             </div>
         `;
         grid.appendChild(card);
@@ -121,15 +137,79 @@ function filterCategory(category) {
     renderApps(category);
 }
 
+// دالة تحويل رابط يوتيوب العادي أو الشورتس إلى صيغة Embed المشغلة داخل الموقع
+function getEmbedUrl(url) {
+    if (!url) return '';
+    // معالجة روابط يوتيوب العادية والشورتس
+    if (url.includes('shorts/')) {
+        const parts = url.split('shorts/');
+        const videoId = parts[1].split('?')[0];
+        return `https://www.youtube.com/embed/${videoId}`;
+    } else if (url.includes('watch?v=')) {
+        const videoId = url.split('watch?v=')[1].split('&')[0];
+        return `https://www.youtube.com/embed/${videoId}`;
+    } else if (url.includes('youtu.be/')) {
+        const videoId = url.split('youtu.be/')[1].split('?')[0];
+        return `https://www.youtube.com/embed/${videoId}`;
+    }
+    return url;
+}
+
+// إنشاء نافذة منسدلة (Modal) لعرض الفيديو عند الضغط على زر الشرح
+function initVideoModal() {
+    if (document.getElementById('customVideoModal')) return;
+
+    const modalHTML = `
+        <div id="customVideoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center; padding: 20px;">
+            <div style="position:relative; width:100%; max-width:500px; background:#1e1e1e; border-radius:14px; overflow:hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 15px; background:#111; color:#fff;">
+                    <span style="font-weight:700; font-size:15px;"><i class="fa-solid fa-film"></i> طريقة التشغيل والشرح</span>
+                    <button onclick="closeVideoModal()" style="background:none; border:none; color:#fff; font-size:22px; cursor:pointer;">&times;</button>
+                </div>
+                <div style="position:relative; width:100%; padding-top:177.77%;"> <!-- مقاس عمودي مناسب لفيديوهات Shorts -->
+                    <iframe id="modalVideoIframe" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function openVideoModal(url) {
+    const modal = document.getElementById('customVideoModal');
+    const iframe = document.getElementById('modalVideoIframe');
+    if (modal && iframe) {
+        iframe.src = getEmbedUrl(url);
+        modal.style.display = 'flex';
+    }
+}
+
+function closeVideoModal() {
+    const modal = document.getElementById('customVideoModal');
+    const iframe = document.getElementById('modalVideoIframe');
+    if (modal && iframe) {
+        iframe.src = '';
+        modal.style.display = 'none';
+    }
+}
+
+// إغلاق النافذة عند الضغط خارج إطار الفيديو
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('customVideoModal');
+    if (event.target === modal) {
+        closeVideoModal();
+    }
+});
+
 // تشغيل الأزرار عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
     applyLanguage();
+    initVideoModal();
     renderApps('all');
 
     // تفعيل زر الوضع الليلي (Dark Mode)
     const darkModeToggle = document.getElementById('darkModeToggle');
     if (darkModeToggle) {
-        // استرجاع الوضع المفضل للمستخدم مسبقاً
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
             darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
