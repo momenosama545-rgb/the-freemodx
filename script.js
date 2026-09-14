@@ -21,7 +21,7 @@ const translations = {
         filterApps: "Apps",
         filterConfigs: "Configs",
         downloadBtn: "Download",
-        watchVideoBtn: "Watch Guide",
+        watchVideo: "Watch Video",
         footerText: "FreeModX © 2026 - Developed by Mohamed Ahmed Shawky"
     },
     ar: {
@@ -42,7 +42,7 @@ const translations = {
         filterApps: "تطبيقات",
         filterConfigs: "كونفج",
         downloadBtn: "تحميل",
-        watchVideoBtn: "طريقة التشغيل",
+        watchVideo: "شاهد الشرح",
         footerText: "FreeModX © 2026 - تم التطوير بواسطة محمد أحمد شوقي"
     }
 };
@@ -77,6 +77,58 @@ function applyLanguage() {
     });
 }
 
+// دالة لتحويل رابط يوتيوب العادي أو الشورتس إلى رابط تضمين (Embed)
+function getEmbedUrl(url) {
+    if (!url) return '';
+    if (url.includes('embed/')) return url;
+    
+    // التعامل مع فيديوهات الشورتس
+    if (url.includes('/shorts/')) {
+        const videoId = url.split('/shorts/')[1].split('?')[0];
+        return `https://www.youtube.com/embed/${videoId}`;
+    }
+    
+    // التعامل مع روابط يوتيوب العادية
+    if (url.includes('watch?v=')) {
+        const videoId = url.split('watch?v=')[1].split('&')[0];
+        return `https://www.youtube.com/embed/${videoId}`;
+    }
+    
+    return url;
+}
+
+// إنشاء نافذة الفيديو (Modal) في الصفحة تلقائياً لو مش موجودة
+function setupVideoModal() {
+    if (document.getElementById('videoModal')) return;
+    
+    const modalHTML = `
+        <div id="videoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+            <div style="position:relative; width:90%; max-width:700px; background:#1e1e1e; padding:20px; border-radius:12px; box-shadow:0 5px 20px rgba(0,0,0,0.5);">
+                <button onclick="closeVideoModal()" style="position:absolute; top:10px; right:15px; background:none; border:none; color:#fff; font-size:24px; cursor:pointer;">&times;</button>
+                <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:8px;">
+                    <iframe id="modalIframe" src="" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function openVideoModal(url) {
+    setupVideoModal();
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('modalIframe');
+    iframe.src = getEmbedUrl(url);
+    modal.style.display = 'flex';
+}
+
+function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('modalIframe');
+    if (modal) modal.style.display = 'none';
+    if (iframe) iframe.src = '';
+}
+
 // عرض العناصر حسب الفئة
 function renderApps(filter = 'all') {
     window.currentFilter = filter;
@@ -94,34 +146,36 @@ function renderApps(filter = 'all') {
     filteredApps.forEach(app => {
         const card = document.createElement('div');
         card.className = 'app-card';
-
-        // إنشاء زر الفيديو إذا وجد رابط فيديو في الداتا
-        let videoButtonHtml = '';
-        if (app.videoLink) {
-            videoButtonHtml = `
-                <button class="video-btn" onclick="openVideoModal('${app.videoLink}')" style="background-color: #e74c3c; color: #fff; border: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s;">
-                    <i class="fa-solid fa-play"></i> ${t.watchVideoBtn}
+        
+        // زرار الفيديو لو الرابط موجود
+        let videoBtnHtml = '';
+        if (app.videoLink && app.videoLink.trim() !== '') {
+            videoBtnHtml = `
+                <button onclick="openVideoModal('${app.videoLink}')" style="background-color: #e74c3c; color: #fff; border: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: opacity 0.2s;">
+                    <i class="fa-solid fa-play"></i> ${t.watchVideo}
                 </button>
             `;
         }
 
         card.innerHTML = `
             <div>
-                <div class="app-header">
-                    <img src="${app.icon}" alt="${app.name}" class="app-icon" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80'">
+                <div class="app-header" style="display: flex; align-items: center; gap: 15px; margin-bottom: 12px;">
+                    <img src="${app.icon}" alt="${app.name}" class="app-icon" style="width: 60px; height: 60px; border-radius: 12px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80'">
                     <div class="app-info">
-                        <h3>${app.name}</h3>
-                        <span class="app-version">v${app.version}</span>
+                        <h3 style="font-size: 17px; margin-bottom: 4px;">${app.name}</h3>
+                        <span class="app-version" style="font-size: 12px; background: var(--border-color); padding: 2px 8px; border-radius: 6px;">v${app.version}</span>
                     </div>
                 </div>
-                <div class="app-features">${app.features}</div>
-                <p class="app-desc">${app.description}</p>
+                <div class="app-features" style="font-size: 13px; color: var(--primary-orange); font-weight: 600; margin-bottom: 8px;">${app.features}</div>
+                <p class="app-desc" style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">${app.description}</p>
             </div>
-            <div class="app-footer" style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <span class="app-size"><i class="fa-solid fa-hard-drive"></i> ${app.size}</span>
-                <div style="display: flex; gap: 8px; align-items: center;">
-                    ${videoButtonHtml}
-                    <a href="${app.downloadLink}" class="download-btn" target="_blank"><i class="fa-solid fa-download"></i> ${t.downloadBtn}</a>
+            <div>
+                <div class="app-footer" style="border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                    <span class="app-size" style="font-size: 12px; color: var(--text-muted);"><i class="fa-solid fa-hard-drive"></i> ${app.size}</span>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        ${videoBtnHtml}
+                        <a href="${app.downloadLink}" class="download-btn" target="_blank" style="background-color: var(--primary-green); color: #fff; text-decoration: none; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700;"><i class="fa-solid fa-download"></i> ${t.downloadBtn}</a>
+                    </div>
                 </div>
             </div>
         `;
@@ -137,75 +191,11 @@ function filterCategory(category) {
     renderApps(category);
 }
 
-// دالة تحويل رابط يوتيوب العادي أو الشورتس إلى صيغة Embed المشغلة داخل الموقع
-function getEmbedUrl(url) {
-    if (!url) return '';
-    // معالجة روابط يوتيوب العادية والشورتس
-    if (url.includes('shorts/')) {
-        const parts = url.split('shorts/');
-        const videoId = parts[1].split('?')[0];
-        return `https://www.youtube.com/embed/${videoId}`;
-    } else if (url.includes('watch?v=')) {
-        const videoId = url.split('watch?v=')[1].split('&')[0];
-        return `https://www.youtube.com/embed/${videoId}`;
-    } else if (url.includes('youtu.be/')) {
-        const videoId = url.split('youtu.be/')[1].split('?')[0];
-        return `https://www.youtube.com/embed/${videoId}`;
-    }
-    return url;
-}
-
-// إنشاء نافذة منسدلة (Modal) لعرض الفيديو عند الضغط على زر الشرح
-function initVideoModal() {
-    if (document.getElementById('customVideoModal')) return;
-
-    const modalHTML = `
-        <div id="customVideoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center; padding: 20px;">
-            <div style="position:relative; width:100%; max-width:500px; background:#1e1e1e; border-radius:14px; overflow:hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 15px; background:#111; color:#fff;">
-                    <span style="font-weight:700; font-size:15px;"><i class="fa-solid fa-film"></i> طريقة التشغيل والشرح</span>
-                    <button onclick="closeVideoModal()" style="background:none; border:none; color:#fff; font-size:22px; cursor:pointer;">&times;</button>
-                </div>
-                <div style="position:relative; width:100%; padding-top:177.77%;"> <!-- مقاس عمودي مناسب لفيديوهات Shorts -->
-                    <iframe id="modalVideoIframe" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-}
-
-function openVideoModal(url) {
-    const modal = document.getElementById('customVideoModal');
-    const iframe = document.getElementById('modalVideoIframe');
-    if (modal && iframe) {
-        iframe.src = getEmbedUrl(url);
-        modal.style.display = 'flex';
-    }
-}
-
-function closeVideoModal() {
-    const modal = document.getElementById('customVideoModal');
-    const iframe = document.getElementById('modalVideoIframe');
-    if (modal && iframe) {
-        iframe.src = '';
-        modal.style.display = 'none';
-    }
-}
-
-// إغلاق النافذة عند الضغط خارج إطار الفيديو
-window.addEventListener('click', (event) => {
-    const modal = document.getElementById('customVideoModal');
-    if (event.target === modal) {
-        closeVideoModal();
-    }
-});
-
 // تشغيل الأزرار عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
     applyLanguage();
-    initVideoModal();
     renderApps('all');
+    setupVideoModal();
 
     // تفعيل زر الوضع الليلي (Dark Mode)
     const darkModeToggle = document.getElementById('darkModeToggle');
