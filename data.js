@@ -9,7 +9,6 @@ const appsData = [
         description: "تحديث 4.6 بدون بان - كشف أماكن دقيق، إيم بوت، 165 فريم، منظور إيباد - تعاون حصري بين ZoneX و FreeModX.",
         downloadLink: "https://www.mediafire.com/file/m7ysrbzmmgenz76/تعاون+zonex+و+freemodx.zip/file",
         videoEmbed: "https://www.youtube.com/embed/B0pi7GawzYg",
-        // حط هنا رابط صورة لـ ببجي أو شعار التعاون
         icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/ima%D8%A8%D8%B1%D9%8A%D9%84%D9%8Ages.jpg?raw=true" 
     },
     {
@@ -22,7 +21,6 @@ const appsData = [
         description: "نسخة مهكرة من لعبة 8 Ball Pool مع خط إرشاد طويل ومميزات حصرية.",
         downloadLink: "https://www.mediafire.com/file/d71tf64mo4t2zl5/8+Ball+Pool_56.18.2_sign.apk/file",
         videoEmbed: "",
-        // رابط صورة لعبة 8 Ball Pool
         icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_rcabrcabrcabrcab.jpg?raw=true"
     },
     {
@@ -35,7 +33,6 @@ const appsData = [
         description: "تطبيق لتحميل الفيديوهات والأغاني من يوتيوب ومختلف منصات التواصل الاجتماعي بدون إعلانات.",
         downloadLink: "https://www.mediafire.com/file/m3i6zed01oplulb/Snaptube+v7.66.1.76672501+(Premium).apk/file",
         videoEmbed: "",
-        // رابط صورة تطبيق سناب تيوب
         icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_nqnk8knqnk8knqnk.jpg?raw=true"
     },
     {
@@ -49,4 +46,5 @@ const appsData = [
         downloadLink: "https://www.mediafire.com/file/f21oot7692qumni/Truecaller_26.27.5_12627005_3b3b92.apk/file",
         videoEmbed: "",
         icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_p8ccjcp8ccjcp8cc.jpg?raw=true"
-],
+    }
+];
