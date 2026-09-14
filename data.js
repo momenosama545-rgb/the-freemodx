@@ -37,7 +37,7 @@ const appsData = [
         videoEmbed: "",
         // رابط صورة تطبيق سناب تيوب
         icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_nqnk8knqnk8knqnk.jpg?raw=true"
-    }
+    },
     {
         id: "truecaller-pro",
         name: "Truecaller Gold / Premium",
