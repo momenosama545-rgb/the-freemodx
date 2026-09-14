@@ -36,6 +36,6 @@ const appsData = [
         downloadLink: "#",
         videoEmbed: "",
         // رابط صورة تطبيق سناب تيوب
-        icon: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=150&auto=format&fit=crop&q=80"
+        icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_nqnk8knqnk8knqnk.jpg?raw=true"
     }
 ];
