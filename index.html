@@ -6,7 +6,431 @@
     <title data-i18n="pageTitle">FreeModX - Pro Modded APKs, Games & Configs</title>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --bg-color: #f4f5f7;
+            --card-bg: #ffffff;
+            --text-color: #222222;
+            --text-muted: #666666;
+            --primary-green: #2ecc71;
+            --primary-orange: #ff6b35;
+            --nav-bg: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 65px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-color);
+        }
+
+        .logo-text .highlight {
+            color: var(--primary-orange);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--primary-green);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .lang-btn {
+            background: #eaeaea;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: background 0.2s;
+        }
+
+        .lang-btn:hover {
+            background: var(--primary-orange);
+            color: #fff;
+        }
+
+        /* Split Hero Banner */
+        .hero-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            min-height: 350px;
+            color: #fff;
+        }
+
+        .hero-side {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .games-side {
+            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=80') center/cover;
+        }
+
+        .mods-side {
+            background-color: var(--primary-orange);
+        }
+
+        .hero-content h1, .hero-content h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .hero-content p {
+            font-size: 15px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            max-width: 450px;
+        }
+
+        .btn-green {
+            background-color: var(--primary-green);
+            color: #fff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .btn-dark {
+            background-color: #1a1a1a;
+            color: #fff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .btn-green:hover, .btn-dark:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Main Container & Grid */
+        .container {
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-color);
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary-orange);
+            color: #fff;
+            border-color: var(--primary-orange);
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* App Card */
+        .app-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        }
+
+        .app-header {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+        }
+
+        .app-info h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .app-version {
+            font-size: 12px;
+            color: var(--text-muted);
+            background: var(--border-color);
+            padding: 2px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .app-features {
+            font-size: 13px;
+            color: var(--primary-orange);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .app-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .app-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .app-size {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .download-btn {
+            background-color: var(--primary-green);
+            color: #fff;
+            text-decoration: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: background 0.2s;
+        }
+
+        .download-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .video-btn {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .video-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Video Modal Styles */
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 650px;
+            background: #1e1e1e;
+            padding: 25px 15px 15px 15px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .video-container-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .video-container-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 50px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Dark Mode Colors */
+        body.dark-mode {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --text-muted: #aaaaaa;
+            --nav-bg: #1a1a1a;
+            --border-color: #333333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-split {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -63,7 +487,7 @@
 
         <!-- Apps Grid -->
         <div class="apps-grid" id="appsGrid">
-            <!-- سيتم تعبئة الكروت تلقائياً عبر script.js -->
+            <!-- سيتم تعبئة الكروت تلقائياً عبر الجافاسكريبت -->
         </div>
     </main>
 
@@ -82,8 +506,260 @@
         <p data-i18n="footerText">FreeModX © 2026 - Developed by Mohamed Ahmed Shawky</p>
     </footer>
 
-    <!-- Scripts -->
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+    <!-- Script & Data -->
+    <script>
+        const appsData = [
+            {
+                id: "pubg-zonex-freemodx",
+                name: "PUBG Mobile (ZoneX & FreeModX)",
+                category: "configs",
+                version: "4.6",
+                size: "3.6 MB",
+                features: "ESP, Aimbot, 165 FPS, iPad View",
+                description: "تحديث 4.6 بدون بان - كشف أماكن دقيق، إيم بوت، 165 فريم، منظور إيباد - تعاون حصري بين ZoneX و FreeModX.",
+                downloadLink: "https://www.mediafire.com/file/m7ysrbzmmgenz76/تعاون+zonex+و+freemodx.zip/file",
+                videoEmbed: "https://www.youtube.com/embed/B0pi7GawzYg",
+                icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/ima%D8%A8%D8%B1%D9%8A%D9%84%D9%8Ages.jpg?raw=true" 
+            },
+            {
+                id: "8bp-expert",
+                name: "8 Ball Pool Mod",
+                category: "games",
+                version: "5.10.0",
+                size: "201 MB",
+                features: "Extended Guideline, Anti-Ban",
+                description: "نسخة مهكرة من لعبة 8 Ball Pool مع خط إرشاد طويل ومميزات حصرية.",
+                downloadLink: "https://www.mediafire.com/file/d71tf64mo4t2zl5/8+Ball+Pool_56.18.2_sign.apk/file",
+                videoEmbed: "",
+                icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_rcabrcabrcabrcab.jpg?raw=true"
+            },
+            {
+                id: "snaptube-pro",
+                name: "Snaptube VIP",
+                category: "apps",
+                version: "7.0.2",
+                size: "25 MB",
+                features: "Ad-Free, HD Downloads",
+                description: "تطبيق لتحميل الفيديوهات والأغاني من يوتيوب ومختلف منصات التواصل الاجتماعي بدون إعلانات.",
+                downloadLink: "https://www.mediafire.com/file/m3i6zed01oplulb/Snaptube+v7.66.1.76672501+(Premium).apk/file",
+                videoEmbed: "",
+                icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_nqnk8knqnk8knqnk.jpg?raw=true"
+            },
+            {
+                id: "truecaller-pro",
+                name: "Truecaller Gold / Premium",
+                category: "apps",
+                version: "26.27.5",
+                size: "105 MB",
+                features: "Caller ID, Spam Blocking, Gold Badge",
+                description: "تطبيق تروكولر لمعرفة اسم المتصل، حظر المكالمات المزعجة، وتفعيل مميزات الحساب الذهبي والمدفوع.",
+                downloadLink: "https://www.mediafire.com/file/f21oot7692qumni/Truecaller_26.27.5_12627005_3b3b92.apk/file",
+                videoEmbed: "",
+                icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_p8ccjcp8ccjcp8cc.jpg?raw=true"
+            }
+        ];
+
+        const appsGrid = document.getElementById('appsGrid');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const langText = document.getElementById('langText');
+        const htmlRoot = document.getElementById('htmlRoot');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const videoModal = document.getElementById('videoModal');
+        const modalIframe = document.getElementById('modalIframe');
+
+        let currentLang = localStorage.getItem('appLang') || 'ar';
+
+        const translations = {
+            en: {
+                pageTitle: "FreeModX - Pro Modded APKs, Games & Configs",
+                home: "Home",
+                games: "Games",
+                programs: "Programs",
+                configs: "Configs",
+                heroGamesTitle: "Games catalog",
+                heroGamesDesc: "In our catalog you can download the latest versions of popular games for Android",
+                btnAllGames: "ALL GAMES",
+                heroModsTitle: "MOD Games & Configs",
+                heroModsDesc: "Free catalog of the latest MOD versions and ESP config files for high-end gaming",
+                btnAllConfigs: "ALL CONFIGS",
+                sectionTitleText: "Latest Updates, Mods & Configs",
+                filterAll: "All",
+                filterGames: "Games",
+                filterApps: "Apps",
+                filterConfigs: "Configs",
+                appVersion: "Version",
+                appSize: "Size",
+                btnDownload: "Download",
+                btnWatch: "Watch",
+                footerText: "FreeModX © 2026 - Developed by Mohamed Ahmed Shawky"
+            },
+            ar: {
+                pageTitle: "FreeModX - أفضل تطبيقات، ألعاب وكونفجات معدلة",
+                home: "الرئيسية",
+                games: "الألعاب",
+                programs: "البرامج",
+                configs: "الكونفجات",
+                heroGamesTitle: "كتالوج الألعاب",
+                heroGamesDesc: "في كتالوجنا يمكنك تحميل أحدث إصدارات الألعاب الشهيرة للأندرويد",
+                btnAllGames: "كل الألعاب",
+                heroModsTitle: "ألعاب وكونفجات MOD",
+                heroModsDesc: "كتالوج مجاني لأحدث إصدارات الـ MOD وملفات الـ ESP للعب الاحترافي",
+                btnAllConfigs: "كل الكونفجات",
+                sectionTitleText: "أحدث التحديثات، التعديلات والكونفجات",
+                filterAll: "الكل",
+                filterGames: "الألعاب",
+                filterApps: "البرامج",
+                filterConfigs: "الكونفجات",
+                appVersion: "الإصدار",
+                appSize: "الحجم",
+                btnDownload: "تحميل",
+                btnWatch: "مشاهدة",
+                footerText: "FreeModX © 2026 - تطوير محمد أحمد شوقي"
+            }
+        };
+
+        function updateLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('appLang', lang);
+            langText.innerText = lang.toUpperCase();
+            htmlRoot.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            htmlRoot.setAttribute('lang', lang);
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.innerText = translations[lang][key];
+                }
+            });
+        }
+
+        function toggleLanguage() {
+            const newLang = currentLang === 'ar' ? 'en' : 'ar';
+            updateLanguage(newLang);
+        }
+
+        function enableDarkMode() {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            localStorage.setItem('darkMode', 'enabled');
+        }
+
+        function disableDarkMode() {
+            document.body.classList.remove('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            localStorage.setItem('darkMode', null);
+        }
+
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            enableDarkMode();
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            if (document.body.classList.contains('dark-mode')) {
+                disableDarkMode();
+            } else {
+                enableDarkMode();
+            }
+        });
+
+        function generateAppCard(app) {
+            const versionText = translations[currentLang].appVersion;
+            const sizeText = translations[currentLang].appSize;
+            const downloadText = translations[currentLang].btnDownload;
+            const watchText = translations[currentLang].btnWatch;
+
+            let videoButtonHtml = '';
+            if (app.videoEmbed && app.videoEmbed.trim() !== '') {
+                videoButtonHtml = `
+                    <button class="video-btn" onclick="openVideoModal('${app.videoEmbed}')">
+                        <i class="fa-brands fa-youtube"></i> <span>${watchText}</span>
+                    </button>
+                `;
+            }
+
+            return `
+                <div class="app-card" data-category="${app.category}">
+                    <div class="app-header">
+                        <img src="${app.icon}" alt="${app.name}" class="app-icon">
+                        <div class="app-info">
+                            <h3>${app.name}</h3>
+                            <span class="app-version">${versionText}: ${app.version}</span>
+                        </div>
+                    </div>
+                    <div class="app-features">${app.features}</div>
+                    <p class="app-desc">${app.description}</p>
+                    <div class="app-footer">
+                        <span class="app-size">${sizeText}: ${app.size}</span>
+                        <div class="card-actions">
+                            <a href="${app.downloadLink}" target="_blank" class="download-btn">${downloadText}</a>
+                            ${videoButtonHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayApps(category = 'all') {
+            appsGrid.innerHTML = '';
+            let filteredApps = appsData;
+
+            if (category !== 'all') {
+                filteredApps = appsData.filter(app => app.category === category);
+            }
+
+            const fragment = document.createDocumentFragment();
+            filteredApps.forEach(app => {
+                const cardElement = document.createElement('div');
+                cardElement.innerHTML = generateAppCard(app);
+                fragment.appendChild(cardElement.firstElementChild);
+            });
+            appsGrid.appendChild(fragment);
+        }
+
+        function filterCategory(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                const onclickAttr = btn.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes(category)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            document.querySelectorAll('.navbar .nav-item').forEach(link => {
+                link.classList.remove('active');
+                const onclickAttr = link.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes(category)) {
+                     link.classList.add('active');
+                }
+            });
+
+            displayApps(category);
+        }
+
+        function openVideoModal(embedUrl) {
+            let finalUrl = embedUrl;
+            if (embedUrl.includes('watch?v=')) {
+                 finalUrl = embedUrl.replace('watch?v=', 'embed/');
+            }
+            modalIframe.src = finalUrl;
+            videoModal.style.display = 'flex';
+        }
+
+        function closeVideoModal() {
+            videoModal.style.display = 'none';
+            modalIframe.src = '';
+        }
+
+        videoModal.addEventListener('click', (event) => {
+            if (event.target === videoModal) {
+                closeVideoModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLanguage(currentLang);
+            displayApps('all');
+        });
+    </script>
 </body>
 </html>
