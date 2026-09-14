@@ -1,7 +1,17 @@
-const grid = document.getElementById('appsGrid');
-let currentLang = localStorage.getItem('freemodx_lang') || 'en';
+// --- script.js ---
 
-// قاموس الترجمات (عربي / إنجليزي)
+// 1. عناصر واجهة المستخدم الأساسية
+const appsGrid = document.getElementById('appsGrid');
+const darkModeToggle = document.getElementById('darkModeToggle');
+const langText = document.getElementById('langText');
+const htmlRoot = document.getElementById('htmlRoot');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const videoModal = document.getElementById('videoModal');
+const modalIframe = document.getElementById('modalIframe');
+
+// 2. نظام الترجمة واللغات
+let currentLang = localStorage.getItem('appLang') || 'ar';
+
 const translations = {
     en: {
         pageTitle: "FreeModX - Pro Modded APKs, Games & Configs",
@@ -20,182 +30,191 @@ const translations = {
         filterGames: "Games",
         filterApps: "Apps",
         filterConfigs: "Configs",
-        downloadBtn: "Download",
-        watchVideo: "Video",
+        appVersion: "Version",
+        appSize: "Size",
+        btnDownload: "Download",
+        btnWatch: "Watch",
         footerText: "FreeModX © 2026 - Developed by Mohamed Ahmed Shawky"
     },
     ar: {
-        pageTitle: "FreeModX - ألعاب وتطبيقات و ملفات معدلة باحترافية",
+        pageTitle: "FreeModX - أفضل تطبيقات، ألعاب وكونفجات معدلة",
         home: "الرئيسية",
         games: "الألعاب",
         programs: "البرامج",
-        configs: "الكونفج",
-        heroGamesTitle: "دليل الألعاب",
-        heroGamesDesc: "في دليلنا يمكنك تحميل أحدث إصدارات الألعاب الشهيرة لأجهزة الأندرويد",
+        configs: "الكونفجات",
+        heroGamesTitle: "كتالوج الألعاب",
+        heroGamesDesc: "في كتالوجنا يمكنك تحميل أحدث إصدارات الألعاب الشهيرة للأندرويد",
         btnAllGames: "كل الألعاب",
-        heroModsTitle: "ألعاب وكونفج معدلة",
-        heroModsDesc: "كتالوج مجاني لأحدث النسخ المعدلة وملفات كشف الأماكن للألعاب القوية",
-        btnAllConfigs: "كل الكونفج",
-        sectionTitleText: "أحدث التحديثات، المودات والملفات",
+        heroModsTitle: "ألعاب وكونفجات MOD",
+        heroModsDesc: "كتالوج مجاني لأحدث إصدارات الـ MOD وملفات الـ ESP للعب الاحترافي",
+        btnAllConfigs: "كل الكونفجات",
+        sectionTitleText: "أحدث التحديثات، التعديلات والكونفجات",
         filterAll: "الكل",
-        filterGames: "ألعاب",
-        filterApps: "تطبيقات",
-        filterConfigs: "كونفج",
-        downloadBtn: "تحميل",
-        watchVideo: "فيديو",
-        footerText: "FreeModX © 2026 - تم التطوير بواسطة محمد أحمد شوقي"
+        filterGames: "الألعاب",
+        filterApps: "البرامج",
+        filterConfigs: "الكونفجات",
+        appVersion: "الإصدار",
+        appSize: "الحجم",
+        btnDownload: "تحميل",
+        btnWatch: "مشاهدة",
+        footerText: "FreeModX © 2026 - تطوير محمد أحمد شوقي"
     }
 };
 
-// تبديل اللغة
-function toggleLanguage() {
-    currentLang = currentLang === 'en' ? 'ar' : 'en';
-    localStorage.setItem('freemodx_lang', currentLang);
-    applyLanguage();
-    renderApps(window.currentFilter || 'all');
-}
-
-function applyLanguage() {
-    const htmlRoot = document.getElementById('htmlRoot');
-    const langBtnText = document.getElementById('langText');
-    
-    if (currentLang === 'ar') {
-        htmlRoot.setAttribute('dir', 'rtl');
-        htmlRoot.setAttribute('lang', 'ar');
-        if(langBtnText) langBtnText.textContent = 'EN';
-    } else {
-        htmlRoot.setAttribute('dir', 'ltr');
-        htmlRoot.setAttribute('lang', 'en');
-        if(langBtnText) langBtnText.textContent = 'AR';
-    }
+function updateLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('appLang', lang);
+    langText.innerText = lang.toUpperCase();
+    htmlRoot.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    htmlRoot.setAttribute('lang', lang);
 
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
-        if (translations[currentLang] && translations[currentLang][key]) {
-            element.textContent = translations[currentLang][key];
+        if (translations[lang][key]) {
+            element.innerText = translations[lang][key];
         }
     });
 }
 
-// معالجة روابط يوتيوب والشورتس لتحويلها لروابط تفعيل داخل النافذة
-function getEmbedUrl(url) {
-    if (!url) return '';
-    if (url.includes('embed/')) return url;
-    if (url.includes('/shorts/')) {
-        const videoId = url.split('/shorts/')[1].split('?')[0];
-        return `https://www.youtube.com/embed/${videoId}`;
-    }
-    if (url.includes('watch?v=')) {
-        const videoId = url.split('watch?v=')[1].split('&')[0];
-        return `https://www.youtube.com/embed/${videoId}`;
-    }
-    return url;
+function toggleLanguage() {
+    const newLang = currentLang === 'ar' ? 'en' : 'ar';
+    updateLanguage(newLang);
 }
 
-// وظائف تشغيل وإغلاق نافذة الفيديو المنبسطة (Modal)
-function openVideoModal(url) {
-    const modal = document.getElementById('videoModal');
-    const iframe = document.getElementById('modalIframe');
-    if (modal && iframe) {
-        iframe.src = getEmbedUrl(url);
-        modal.style.display = 'flex';
+// 3. الوضع الليلي (Dark Mode)
+function enableDarkMode() {
+    document.body.classList.add('dark-mode');
+    darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    localStorage.setItem('darkMode', 'enabled');
+}
+
+function disableDarkMode() {
+    document.body.classList.remove('dark-mode');
+    darkModeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+    localStorage.setItem('darkMode', null);
+}
+
+const darkModeState = localStorage.getItem('darkMode');
+if (darkModeState === 'enabled') {
+    enableDarkMode();
+}
+
+darkModeToggle.addEventListener('click', () => {
+    if (document.body.classList.contains('dark-mode')) {
+        disableDarkMode();
+    } else {
+        enableDarkMode();
     }
+});
+
+// 4. وظيفة عرض الكروت وإنشاء زر الفيديو بجوار التحميل
+function generateAppCard(app) {
+    const versionText = translations[currentLang].appVersion;
+    const sizeText = translations[currentLang].appSize;
+    const downloadText = translations[currentLang].btnDownload;
+    const watchText = translations[currentLang].btnWatch;
+
+    // زر الفيديو يظهر فقط لو رابط الفديو مش فارغ
+    let videoButtonHtml = '';
+    if (app.videoEmbed && app.videoEmbed.trim() !== '') {
+        videoButtonHtml = `
+            <button class="video-btn" onclick="openVideoModal('${app.videoEmbed}')">
+                <i class="fa-brands fa-youtube"></i> <span>${watchText}</span>
+            </button>
+        `;
+    }
+
+    const cardHtml = `
+        <div class="app-card" data-category="${app.category}">
+            <div class="app-header">
+                <img src="${app.icon}" alt="${app.name}" class="app-icon">
+                <div class="app-info">
+                    <h3>${app.name}</h3>
+                    <span class="app-version">${versionText}: ${app.version}</span>
+                </div>
+            </div>
+            <div class="app-features">${app.features}</div>
+            <p class="app-desc">${app.description}</p>
+            <div class="app-footer">
+                <span class="app-size">${sizeText}: ${app.size}</span>
+                <div class="card-actions">
+                    <a href="${app.downloadLink}" target="_blank" class="download-btn">${downloadText}</a>
+                    ${videoButtonHtml}
+                </div>
+            </div>
+        </div>
+    `;
+    return cardHtml;
+}
+
+function displayApps(category = 'all') {
+    appsGrid.innerHTML = '';
+    let filteredApps = appsData;
+
+    if (category !== 'all') {
+        filteredApps = appsData.filter(app => app.category === category);
+    }
+
+    const fragment = document.createDocumentFragment();
+    filteredApps.forEach(app => {
+        const cardElement = document.createElement('div');
+        cardElement.innerHTML = generateAppCard(app);
+        fragment.appendChild(cardElement.firstElementChild);
+    });
+    appsGrid.appendChild(fragment);
+}
+
+// 5. وظائف الفلترة
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelector('.filter-btn.active').classList.remove('active');
+    });
+});
+
+function filterCategory(category) {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        const onclickAttr = btn.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes(category)) {
+            btn.classList.add('active');
+        }
+    });
+
+    document.querySelectorAll('.navbar .nav-item').forEach(link => {
+        link.classList.remove('active');
+        const onclickAttr = link.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes(category)) {
+             link.classList.add('active');
+        }
+    });
+
+    displayApps(category);
+}
+
+// 6. نافذة الفيديو المنبثقة (Video Modal)
+function openVideoModal(embedUrl) {
+    let finalUrl = embedUrl;
+    if (embedUrl.includes('watch?v=')) {
+         finalUrl = embedUrl.replace('watch?v=', 'embed/');
+    }
+    
+    modalIframe.src = finalUrl;
+    videoModal.style.display = 'flex';
 }
 
 function closeVideoModal() {
-    const modal = document.getElementById('videoModal');
-    const iframe = document.getElementById('modalIframe');
-    if (modal) modal.style.display = 'none';
-    if (iframe) iframe.src = '';
+    videoModal.style.display = 'none';
+    modalIframe.src = '';
 }
 
-// عرض عناصر الألعاب والتطبيقات في شبكة الكروت
-function renderApps(filter = 'all') {
-    window.currentFilter = filter;
-    if (!grid) return;
-    grid.innerHTML = '';
-    
-    if (typeof appsData === 'undefined') return;
+videoModal.addEventListener('click', (event) => {
+    if (event.target === videoModal) {
+        closeVideoModal();
+    }
+});
 
-    const filteredApps = filter === 'all' 
-        ? appsData 
-        : appsData.filter(app => app.category === filter);
-
-    const t = translations[currentLang];
-
-    filteredApps.forEach(app => {
-        const card = document.createElement('div');
-        card.className = 'app-card';
-        
-        let videoBtnHtml = '';
-        if (app.videoLink && app.videoLink.trim() !== '') {
-            videoBtnHtml = `
-                <button onclick="openVideoModal('${app.videoLink}')" class="video-btn">
-                    <i class="fa-solid fa-play"></i> ${t.watchVideo}
-                </button>
-            `;
-        }
-
-        card.innerHTML = `
-            <div>
-                <div class="app-header">
-                    <img src="${app.icon}" alt="${app.name}" class="app-icon" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80'">
-                    <div class="app-info">
-                        <h3>${app.name}</h3>
-                        <span class="app-version">v${app.version}</span>
-                    </div>
-                </div>
-                <div class="app-features">${app.features}</div>
-                <p class="app-desc">${app.description}</p>
-            </div>
-            <div>
-                <div class="app-footer">
-                    <span class="app-size"><i class="fa-solid fa-hard-drive"></i> ${app.size}</span>
-                    <div class="card-actions">
-                        ${videoBtnHtml}
-                        <a href="${app.downloadLink}" class="download-btn" target="_blank"><i class="fa-solid fa-download"></i> ${t.downloadBtn}</a>
-                    </div>
-                </div>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
-
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-}
-
-function filterCategory(category) {
-    renderApps(category);
-}
-
-// تنفيذ الأوامر عند اكتمال التحميل
+// 7. التشغيل الأولي عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
-    applyLanguage();
-    renderApps('all');
-
-    // إغلاق نافذة الفيديو عند النقر في المساحة الخارجية
-    const modal = document.getElementById('videoModal');
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeVideoModal();
-        });
-    }
-
-    // تفعيل زر الوضع الليلي (Dark Mode)
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    if (darkModeToggle) {
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-            darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
-        }
-
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            darkModeToggle.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-        });
-    }
+    updateLanguage(currentLang);
+    displayApps('all');
 });
