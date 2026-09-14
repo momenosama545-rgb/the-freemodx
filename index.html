@@ -1,53 +1,50 @@
 <!DOCTYPE html>
-<html lang="ar" dir="ltr">
+<html lang="en" dir="ltr" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FreeModX - Pro Modded APKs & Games</title>
+    <title id="pageTitle">FreeModX - Pro Modded APKs, Games & Configs</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Top Navigation Bar (an1 Style) -->
+    <!-- Top Navigation Bar -->
     <header class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <span class="logo-text">Free<span class="highlight">Mod</span>X</span>
             </div>
             <nav class="nav-links">
-                <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> Home</a>
-                <a href="#games" class="nav-item"><i class="fa-solid fa-gamepad"></i> Games</a>
-                <a href="#apps" class="nav-item"><i class="fa-solid fa-box-archive"></i> Programs</a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-newspaper"></i> News</a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+                <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> <span data-i18n="home">Home</span></a>
+                <a href="#games" class="nav-item" onclick="filterCategory('games')"><i class="fa-solid fa-gamepad"></i> <span data-i18n="games">Games</span></a>
+                <a href="#apps" class="nav-item" onclick="filterCategory('apps')"><i class="fa-solid fa-box-archive"></i> <span data-i18n="programs">Programs</span></a>
+                <a href="#configs" class="nav-item" onclick="filterCategory('configs')"><i class="fa-solid fa-code-merge"></i> <span data-i18n="configs">Configs</span></a>
             </nav>
             <div class="nav-actions">
                 <button class="icon-btn" id="darkModeToggle"><i class="fa-solid fa-moon"></i></button>
-                <button class="icon-btn"><i class="fa-solid fa-search"></i></button>
-                <div class="lang-selector">
-                    <i class="fa-solid fa-globe"></i> EN
-                </div>
+                <!-- Language Switcher Button -->
+                <button class="lang-btn" id="langSwitchBtn" onclick="toggleLanguage()">
+                    <i class="fa-solid fa-globe"></i> <span id="langText">AR</span>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Split Hero Banner (Inspired by an1 design) -->
+    <!-- Split Hero Banner -->
     <section class="hero-split">
-        <!-- Left Banner (Games Catalog) -->
         <div class="hero-side games-side">
             <div class="hero-content">
-                <h1>Games catalog</h1>
-                <p>In our catalog you can download the latest versions of popular games for Android</p>
-                <button class="btn-green" onclick="filterCategory('games')">ALL GAMES</button>
+                <h1 data-i18n="heroGamesTitle">Games catalog</h1>
+                <p data-i18n="heroGamesDesc">In our catalog you can download the latest versions of popular games for Android</p>
+                <button class="btn-green" onclick="filterCategory('games')" data-i18n="btnAllGames">ALL GAMES</button>
             </div>
         </div>
-        <!-- Right Banner (MOD Games) -->
         <div class="hero-side mods-side">
             <div class="hero-content">
-                <h2>MOD Games</h2>
-                <p>Free catalog of the latest MOD versions of games that you can download for free</p>
-                <button class="btn-dark" onclick="filterCategory('all')">ALL MOD-GAMES</button>
+                <h2 data-i18n="heroModsTitle">MOD Games & Configs</h2>
+                <p data-i18n="heroModsDesc">Free catalog of the latest MOD versions and ESP config files for high-end gaming</p>
+                <button class="btn-dark" onclick="filterCategory('configs')" data-i18n="btnAllConfigs">ALL CONFIGS</button>
             </div>
         </div>
     </section>
@@ -55,23 +52,21 @@
     <!-- Main Content Container -->
     <main class="container">
         <div class="section-header">
-            <h2 id="sectionTitle">Latest Updates & Mods</h2>
+            <h2 id="sectionTitle" data-i18n="sectionTitleText">Latest Updates, Mods & Configs</h2>
             <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterCategory('all')">All</button>
-                <button class="filter-btn" onclick="filterCategory('games')">Games</button>
-                <button class="filter-btn" onclick="filterCategory('apps')">Apps</button>
+                <button class="filter-btn active" onclick="filterCategory('all')" data-i18n="filterAll">All</button>
+                <button class="filter-btn" onclick="filterCategory('games')" data-i18n="filterGames">Games</button>
+                <button class="filter-btn" onclick="filterCategory('apps')" data-i18n="filterApps">Apps</button>
+                <button class="filter-btn" onclick="filterCategory('configs')" data-i18n="filterConfigs">Configs</button>
             </div>
         </div>
 
-        <!-- Apps & Games Grid -->
-        <div class="apps-grid" id="appsGrid">
-            <!-- Dynamic items loaded from data.js -->
-        </div>
+        <div class="apps-grid" id="appsGrid"></div>
     </main>
 
     <!-- Footer -->
     <footer>
-        <p>FreeModX © 2026 - Developed by Mohamed Ahmed Shawky</p>
+        <p><span data-i18n="footerText">FreeModX © 2026 - Developed by Mohamed Ahmed Shawky</span></p>
     </footer>
 
     <script src="data.js"></script>
