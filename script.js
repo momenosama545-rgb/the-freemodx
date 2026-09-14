@@ -1,7 +1,7 @@
 const grid = document.getElementById('appsGrid');
 let currentLang = localStorage.getItem('freemodx_lang') || 'en';
 
-// قاموس الترجمات (اللغتين)
+// قاموس الترجمات (عربي / إنجليزي)
 const translations = {
     en: {
         pageTitle: "FreeModX - Pro Modded APKs, Games & Configs",
@@ -45,7 +45,7 @@ const translations = {
     }
 };
 
-// تبديل اللغة وتحديث الواجهة
+// تبديل اللغة
 function toggleLanguage() {
     currentLang = currentLang === 'en' ? 'ar' : 'en';
     localStorage.setItem('freemodx_lang', currentLang);
@@ -60,22 +60,22 @@ function applyLanguage() {
     if (currentLang === 'ar') {
         htmlRoot.setAttribute('dir', 'rtl');
         htmlRoot.setAttribute('lang', 'ar');
-        langBtnText.textContent = 'EN';
+        if(langBtnText) langBtnText.textContent = 'EN';
     } else {
         htmlRoot.setAttribute('dir', 'ltr');
         htmlRoot.setAttribute('lang', 'en');
-        langBtnText.textContent = 'AR';
+        if(langBtnText) langBtnText.textContent = 'AR';
     }
 
-    // تطبيق الترجمات على كل عنصر يحمل خاصية data-i18n
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
-        if (translations[currentLang][key]) {
+        if (translations[currentLang] && translations[currentLang][key]) {
             element.textContent = translations[currentLang][key];
         }
     });
 }
 
+// عرض العناصر حسب الفئة
 function renderApps(filter = 'all') {
     window.currentFilter = filter;
     if (!grid) return;
@@ -114,9 +114,6 @@ function renderApps(filter = 'all') {
 
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
-        if(btn.textContent.toLowerCase().includes(filter) || (filter === 'all' && (btn.getAttribute('data-i18n') === 'filterAll'))) {
-            btn.classList.add('active');
-        }
     });
 }
 
@@ -124,7 +121,25 @@ function filterCategory(category) {
     renderApps(category);
 }
 
+// تشغيل الأزرار عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
     applyLanguage();
     renderApps('all');
+
+    // تفعيل زر الوضع الليلي (Dark Mode)
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (darkModeToggle) {
+        // استرجاع الوضع المفضل للمستخدم مسبقاً
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            darkModeToggle.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        });
+    }
 });
