@@ -20,7 +20,7 @@ const appsData = [
         size: "201 MB",
         features: "Extended Guideline, Anti-Ban",
         description: "نسخة مهكرة من لعبة 8 Ball Pool مع خط إرشاد طويل ومميزات حصرية.",
-        downloadLink: "#",
+        downloadLink: "https://www.mediafire.com/file/d71tf64mo4t2zl5/8+Ball+Pool_56.18.2_sign.apk/file",
         videoEmbed: "",
         // رابط صورة لعبة 8 Ball Pool
         icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_rcabrcabrcabrcab.jpg?raw=true"
@@ -33,7 +33,7 @@ const appsData = [
         size: "25 MB",
         features: "Ad-Free, HD Downloads",
         description: "تطبيق لتحميل الفيديوهات والأغاني من يوتيوب ومختلف منصات التواصل الاجتماعي بدون إعلانات.",
-        downloadLink: "#",
+        downloadLink: "https://www.mediafire.com/file/m3i6zed01oplulb/Snaptube+v7.66.1.76672501+(Premium).apk/file",
         videoEmbed: "",
         // رابط صورة تطبيق سناب تيوب
         icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_nqnk8knqnk8knqnk.jpg?raw=true"
