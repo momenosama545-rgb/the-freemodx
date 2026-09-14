@@ -23,7 +23,7 @@ const appsData = [
         downloadLink: "#",
         videoEmbed: "",
         // رابط صورة لعبة 8 Ball Pool
-        icon: "https://images.unsplash.com/photo-1511193311914-0346f16efe90?w=150&auto=format&fit=crop&q=80"
+        icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_rcabrcabrcabrcab.jpg?raw=true"
     },
     {
         id: "snaptube-pro",
