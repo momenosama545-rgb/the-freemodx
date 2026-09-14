@@ -1,8 +1,15 @@
 const grid = document.getElementById('appsGrid');
 
 function renderApps(filter = 'all') {
+    if (!grid) return;
     grid.innerHTML = '';
     
+    // التأكد من وجود البيانات
+    if (typeof appsData === 'undefined') {
+        console.error('appsData is not defined! Make sure data.js is loaded before script.js');
+        return;
+    }
+
     const filteredApps = filter === 'all' 
         ? appsData 
         : appsData.filter(app => app.category === filter);
@@ -13,7 +20,7 @@ function renderApps(filter = 'all') {
         card.innerHTML = `
             <div>
                 <div class="app-header">
-                    <img src="${app.icon}" alt="${app.name}" class="app-icon">
+                    <img src="${app.icon}" alt="${app.name}" class="app-icon" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80'">
                     <div class="app-info">
                         <h3>${app.name}</h3>
                         <span class="app-version">v${app.version}</span>
@@ -35,5 +42,7 @@ function filterCategory(category) {
     renderApps(category);
 }
 
-// Initial Render
-renderApps('all');
+// التشغيل التلقائي أول ما الصفحة تفتح
+document.addEventListener('DOMContentLoaded', () => {
+    renderApps('all');
+});
