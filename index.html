@@ -1,140 +1,80 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FreeModX - تنزيل العاب وتطبيقات معدلة</title>
+    <title>FreeModX - Pro Modded APKs & Games</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <header>
-        <div class="logo-area" onclick="goHome()">
-            <img src="images/logo.png" alt="FreeModX Logo" class="logo-img" onerror="this.style.display='none'">
-            <span>FreeModX</span>
+    <!-- Top Navigation Bar (an1 Style) -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-text">Free<span class="highlight">Mod</span>X</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="#games" class="nav-item"><i class="fa-solid fa-gamepad"></i> Games</a>
+                <a href="#apps" class="nav-item"><i class="fa-solid fa-box-archive"></i> Programs</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-newspaper"></i> News</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="icon-btn" id="darkModeToggle"><i class="fa-solid fa-moon"></i></button>
+                <button class="icon-btn"><i class="fa-solid fa-search"></i></button>
+                <div class="lang-selector">
+                    <i class="fa-solid fa-globe"></i> EN
+                </div>
+            </div>
         </div>
-        <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن لعبة أو تطبيق...">
     </header>
 
-    <!-- شريط الأقسام التفاعلي -->
-    <div class="categories-bar" id="catBar">
-        <button class="cat-btn active" data-category="all">الكل</button>
-        <button class="cat-btn" data-category="mods">Mods (معدلة)</button>
-        <button class="cat-btn" data-category="apps">Apps (تطبيقات)</button>
-        <button class="cat-btn" data-category="games">Games (ألعاب)</button>
-    </div>
-
-    <!-- المحتوى الرئيسي (الشبكة) -->
-    <div class="container" id="mainContainer">
-        <h2 class="section-title" id="sectionTitle">أحدث الإصدارات والرائجة</h2>
-        <div class="grid" id="appsGrid"></div>
-    </div>
-
-    <!-- صفحة تفاصيل التحميل (تظهر عند النقر على التطبيق) -->
-    <div class="container" id="detailsContainer" style="display: none;">
-        <button class="back-btn" onclick="goHome()">← العودة للرئيسية</button>
-        <div class="details-view" id="detailsViewContent" style="display: block;">
-            <!-- يتم تعبئتها ديناميكياً -->
+    <!-- Split Hero Banner (Inspired by an1 design) -->
+    <section class="hero-split">
+        <!-- Left Banner (Games Catalog) -->
+        <div class="hero-side games-side">
+            <div class="hero-content">
+                <h1>Games catalog</h1>
+                <p>In our catalog you can download the latest versions of popular games for Android</p>
+                <button class="btn-green" onclick="filterCategory('games')">ALL GAMES</button>
+            </div>
         </div>
-    </div>
+        <!-- Right Banner (MOD Games) -->
+        <div class="hero-side mods-side">
+            <div class="hero-content">
+                <h2>MOD Games</h2>
+                <p>Free catalog of the latest MOD versions of games that you can download for free</p>
+                <button class="btn-dark" onclick="filterCategory('all')">ALL MOD-GAMES</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="container">
+        <div class="section-header">
+            <h2 id="sectionTitle">Latest Updates & Mods</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterCategory('all')">All</button>
+                <button class="filter-btn" onclick="filterCategory('games')">Games</button>
+                <button class="filter-btn" onclick="filterCategory('apps')">Apps</button>
+            </div>
+        </div>
+
+        <!-- Apps & Games Grid -->
+        <div class="apps-grid" id="appsGrid">
+            <!-- Dynamic items loaded from data.js -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>FreeModX © 2026 - Developed by Mohamed Ahmed Shawky</p>
+    </footer>
 
     <script src="data.js"></script>
-    <script>
-        const grid = document.getElementById('appsGrid');
-        const searchInput = document.getElementById('searchInput');
-        const catButtons = document.querySelectorAll('.cat-btn');
-        const mainContainer = document.getElementById('mainContainer');
-        const detailsContainer = document.getElementById('detailsContainer');
-        const detailsViewContent = document.getElementById('detailsViewContent');
-        const catBar = document.getElementById('catBar');
-        
-        let currentCategory = 'all';
-
-        function renderApps(appsToDisplay) {
-            grid.innerHTML = '';
-            if (appsToDisplay.length === 0) {
-                grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 3rem;">لا توجد نتائج مطابقة لبحثك...</p>';
-                return;
-            }
-
-            appsToDisplay.forEach(app => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div>
-                        <img src="${app.icon}" alt="${app.name}" class="app-icon" onerror="this.src='https://via.placeholder.com/90?text=APK'">
-                        <div class="app-name">${app.name}</div>
-                        <div class="app-meta">الإصدار: ${app.version}<br>${app.features}</div>
-                    </div>
-                    <button class="download-btn">عرض التفاصيل والتحميل</button>
-                `;
-                
-                // عند النقر على الكارت أو الزر، افتح صفحة التفاصيل
-                card.addEventListener('click', () => showAppDetails(app));
-                grid.appendChild(card);
-            });
-        }
-
-        function showAppDetails(app) {
-            mainContainer.style.display = 'none';
-            catBar.style.display = 'none';
-            detailsContainer.style.display = 'block';
-
-            detailsViewContent.innerHTML = `
-                <div class="details-header">
-                    <img src="${app.icon}" alt="${app.name}" class="details-icon" onerror="this.src='https://via.placeholder.com/120?text=APK'">
-                    <div class="details-info">
-                        <h1>${app.name}</h1>
-                        <p class="app-meta" style="font-size: 1rem; margin-bottom: 0.5rem;">الإصدار: ${app.version} | الحجم: ${app.size}</p>
-                        <p style="color: var(--accent-color); font-weight: 600;">✨ الميزات: ${app.features}</p>
-                    </div>
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="margin-bottom: 0.8rem;">حول التطبيق:</h3>
-                    <p style="color: var(--text-muted); line-height: 1.6;">${app.description}</p>
-                </div>
-                <a href="${app.downloadLink}" class="download-btn" style="text-align: center; font-size: 1.1rem; padding: 1rem;" target="_blank">تحميل الملف برابط مباشر (MediaFire) ⚡</a>
-            `;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function goHome() {
-            detailsContainer.style.display = 'none';
-            mainContainer.style.display = 'block';
-            catBar.style.display = 'flex';
-            filterAndRender();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function filterAndRender() {
-            const term = searchInput.value.toLowerCase();
-            let filtered = appsData;
-
-            if (currentCategory !== 'all') {
-                filtered = filtered.filter(app => app.category === currentCategory);
-            }
-
-            if (term) {
-                filtered = filtered.filter(app => 
-                    app.name.toLowerCase().includes(term) || app.features.toLowerCase().includes(term)
-                );
-            }
-
-            renderApps(filtered);
-        }
-
-        catButtons.fromCharCode = catButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                catButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentCategory = btn.getAttribute('data-category');
-                filterAndRender();
-            });
-        });
-
-        searchInput.addEventListener('input', filterAndRender);
-        renderApps(appsData);
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
