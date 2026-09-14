@@ -43,10 +43,10 @@ const appsData = [
         name: "Truecaller Gold / Premium",
         category: "apps",
         version: "26.27.5",
-        size: "95 MB",
+        size: "105 MB",
         features: "Caller ID, Spam Blocking, Gold Badge",
         description: "تطبيق تروكولر لمعرفة اسم المتصل، حظر المكالمات المزعجة، وتفعيل مميزات الحساب الذهبي والمدفوع.",
         downloadLink: "https://www.mediafire.com/file/f21oot7692qumni/Truecaller_26.27.5_12627005_3b3b92.apk/file",
         videoEmbed: "",
-        icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_truecaller.jpg?raw=true"
+        icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_p8ccjcp8ccjcp8cc.jpg?raw=true"
 ],
