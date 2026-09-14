@@ -38,4 +38,15 @@ const appsData = [
         // رابط صورة تطبيق سناب تيوب
         icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_nqnk8knqnk8knqnk.jpg?raw=true"
     }
-];
+    {
+        id: "truecaller-pro",
+        name: "Truecaller Gold / Premium",
+        category: "apps",
+        version: "26.27.5",
+        size: "95 MB",
+        features: "Caller ID, Spam Blocking, Gold Badge",
+        description: "تطبيق تروكولر لمعرفة اسم المتصل، حظر المكالمات المزعجة، وتفعيل مميزات الحساب الذهبي والمدفوع.",
+        downloadLink: "https://www.mediafire.com/file/f21oot7692qumni/Truecaller_26.27.5_12627005_3b3b92.apk/file",
+        videoEmbed: "",
+        icon: "https://github.com/momenosama545-rgb/the-freemodx/blob/main/Gemini_Generated_Image_truecaller.jpg?raw=true"
+],
