@@ -1,88 +1,88 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr" id="htmlRoot">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="pageTitle">FreeModX - Pro Modded APKs, Games & Configs</title>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle">FreeModX - Pro Modded APKs, Games & Configs</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo-text">Free<span class="highlight">Mod</span>X</div>
-            <div class="nav-links">
-                <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> <span data-i18n="home">Home</span></a>
-                <a href="#appsGrid" onclick="filterCategory('games')" class="nav-item"><i class="fa-solid fa-gamepad"></i> <span data-i18n="games">Games</span></a>
-                <a href="#appsGrid" onclick="filterCategory('apps')" class="nav-item"><i class="fa-solid fa-box-archive"></i> <span data-i18n="programs">Programs</span></a>
-                <a href="#appsGrid" onclick="filterCategory('configs')" class="nav-item"><i class="fa-solid fa-sliders"></i> <span data-i18n="configs">Configs</span></a>
-            </div>
-            <div class="nav-actions">
-                <button id="darkModeToggle" class="icon-btn" title="Toggle Dark Mode">
-                    <i class="fa-solid fa-moon"></i>
-                </button>
-                <button class="lang-btn" onclick="toggleLanguage()">
-                    <i class="fa-solid fa-globe"></i> <span id="langText">AR</span>
-                </button>
-            </div>
-        </div>
-    </nav>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-text">Free<span class="highlight">Mod</span>X</div>
+            <div class="nav-links">
+                <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> <span data-i18n="home">Home</span></a>
+                <a href="#appsGrid" onclick="filterCategory('games')" class="nav-item"><i class="fa-solid fa-gamepad"></i> <span data-i18n="games">Games</span></a>
+                <a href="#appsGrid" onclick="filterCategory('apps')" class="nav-item"><i class="fa-solid fa-box-archive"></i> <span data-i18n="programs">Programs</span></a>
+                <a href="#appsGrid" onclick="filterCategory('configs')" class="nav-item"><i class="fa-solid fa-sliders"></i> <span data-i18n="configs">Configs</span></a>
+            </div>
+            <div class="nav-actions">
+                <button id="darkModeToggle" class="icon-btn" title="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="lang-btn" onclick="toggleLanguage()">
+                    <i class="fa-solid fa-globe"></i> <span id="langText">AR</span>
+                </button>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Split Hero Banner -->
-    <header class="hero-split">
-        <div class="hero-side games-side">
-            <div class="hero-content">
-                <h1 data-i18n="heroGamesTitle">Games catalog</h1>
-                <p data-i18n="heroGamesDesc">In our catalog you can download the latest versions of popular games for Android</p>
-                <button class="btn-green" onclick="filterCategory('games')" data-i18n="btnAllGames">ALL GAMES</button>
-            </div>
-        </div>
-        <div class="hero-side mods-side">
-            <div class="hero-content">
-                <h2 data-i18n="heroModsTitle">MOD Games & Configs</h2>
-                <p data-i18n="heroModsDesc">Free catalog of the latest MOD versions and ESP config files for high-end gaming</p>
-                <button class="btn-dark" onclick="filterCategory('configs')" data-i18n="btnAllConfigs">ALL CONFIGS</button>
-            </div>
-        </div>
-    </header>
+    <!-- Split Hero Banner -->
+    <header class="hero-split">
+        <div class="hero-side games-side">
+            <div class="hero-content">
+                <h1 data-i18n="heroGamesTitle">Games catalog</h1>
+                <p data-i18n="heroGamesDesc">In our catalog you can download the latest versions of popular games for Android</p>
+                <button class="btn-green" onclick="filterCategory('games')" data-i18n="btnAllGames">ALL GAMES</button>
+            </div>
+        </div>
+        <div class="hero-side mods-side">
+            <div class="hero-content">
+                <h2 data-i18n="heroModsTitle">MOD Games & Configs</h2>
+                <p data-i18n="heroModsDesc">Free catalog of the latest MOD versions and ESP config files for high-end gaming</p>
+                <button class="btn-dark" onclick="filterCategory('configs')" data-i18n="btnAllConfigs">ALL CONFIGS</button>
+            </div>
+        </div>
+    </header>
 
-    <!-- Main Section & Filter -->
-    <main class="container">
-        <div class="section-header">
-            <h2 data-i18n="sectionTitleText">Latest Updates, Mods & Configs</h2>
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterCategory('all')" data-i18n="filterAll">All</button>
-                <button class="filter-btn" onclick="filterCategory('games')" data-i18n="filterGames">Games</button>
-                <button class="filter-btn" onclick="filterCategory('apps')" data-i18n="filterApps">Apps</button>
-                <button class="filter-btn" onclick="filterCategory('configs')" data-i18n="filterConfigs">Configs</button>
-            </div>
-        </div>
+    <!-- Main Section & Filter -->
+    <main class="container">
+        <div class="section-header">
+            <h2 data-i18n="sectionTitleText">Latest Updates, Mods & Configs</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterCategory('all')" data-i18n="filterAll">All</button>
+                <button class="filter-btn" onclick="filterCategory('games')" data-i18n="filterGames">Games</button>
+                <button class="filter-btn" onclick="filterCategory('apps')" data-i18n="filterApps">Apps</button>
+                <button class="filter-btn" onclick="filterCategory('configs')" data-i18n="filterConfigs">Configs</button>
+            </div>
+        </div>
 
-        <!-- Apps Grid -->
-        <div class="apps-grid" id="appsGrid">
-            <!-- سيتم تعبئة الكروت تلقائياً عبر script.js -->
-        </div>
-    </main>
+        <!-- Apps Grid -->
+        <div class="apps-grid" id="appsGrid">
+            <!-- سيتم تعبئة الكروت تلقائياً عبر script.js -->
+        </div>
+    </main>
 
-    <!-- Video Modal Popup -->
-    <div id="videoModal" class="video-modal" style="display:none;">
-        <div class="modal-content">
-            <button onclick="closeVideoModal()" class="close-modal-btn">&times;</button>
-            <div class="video-container-wrapper">
-                <iframe id="modalIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
+    <!-- Video Modal Popup -->
+    <div id="videoModal" class="video-modal" style="display:none;">
+        <div class="modal-content">
+            <button onclick="closeVideoModal()" class="close-modal-btn">&times;</button>
+            <div class="video-container-wrapper">
+                <iframe id="modalIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
 
-    <!-- Footer -->
-    <footer>
-        <p data-i18n="footerText">FreeModX © 2026 - Developed by Mohamed Ahmed Shawky</p>
-    </footer>
+    <!-- Footer -->
+    <footer>
+        <p data-i18n="footerText">FreeModX © 2026 - Developed by Mohamed Ahmed Shawky</p>
+    </footer>
 
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
