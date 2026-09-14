@@ -246,9 +246,9 @@ body {
 }
 
 .app-icon {
-    width: 65px;
-    height: 65px;
-    border-radius: 14px;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
     object-fit: cover;
     border: 1px solid var(--border-color);
 }
@@ -288,12 +288,20 @@ body {
     align-items: center;
     border-top: 1px solid var(--border-color);
     padding-top: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .app-size {
     font-size: 12px;
     color: var(--text-muted);
     font-weight: 600;
+}
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 .download-btn {
@@ -309,6 +317,76 @@ body {
 
 .download-btn:hover {
     background-color: #27ae60;
+}
+
+.video-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: opacity 0.2s;
+}
+
+.video-btn:hover {
+    opacity: 0.9;
+}
+
+/* Video Modal Styles */
+.video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 650px;
+    background: #1e1e1e;
+    padding: 25px 15px 15px 15px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.video-container-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* نسبة عرض 16:9 لفيديوهات يوتيوب والشورتس */
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.video-container-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 /* Footer */
